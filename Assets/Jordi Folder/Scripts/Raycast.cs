@@ -14,7 +14,7 @@ public class Raycast : MonoBehaviour
     {
 
         RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawLine(ray.origin, ray.direction * 30, Color.red);
         if (Physics.Raycast(ray, out hit))
         {
