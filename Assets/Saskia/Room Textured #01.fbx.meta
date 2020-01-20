@@ -3,7 +3,12 @@ guid: 38cfa6b199c595c4c8e771a1ca0842d3
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kamer
+    second: {fileID: 2100000, guid: 9f06e4c8cfce1cd4f903343e590e5d80, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
