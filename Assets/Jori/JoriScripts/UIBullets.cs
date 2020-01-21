@@ -7,6 +7,7 @@ public class UIBullets : MonoBehaviour
     private int displayedBullet;
     private int bulletReserve; //Reservekogels
     private Text bulletText;
+    private bool canShoot;
     [SerializeField] private Sprite activeBullet;
     [SerializeField] private Sprite inactiveBullet;
     [SerializeField] private Image[] bullets = new Image[6];
@@ -24,40 +25,49 @@ public class UIBullets : MonoBehaviour
         bulletReserve = 42;
         displayedBullet = 7;
         bulletText.text = displayedBullet + " - " + bulletReserve;
+        canShoot = true;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (canShoot)
         {
-            displayedBullet--;
-            currentBullet++;
-            if (currentBullet >= 7 && bulletReserve >= 7) // Checkt als bullets boven 7 is en of de reserve bullets 7 of meer bullets heeft
+            if (Input.GetMouseButtonDown(0))
             {
-                currentBullet = -1;
-                bulletReserve -= 7;
-                displayedBullet = 7;
-                for (int i = 0; i < 7; i++)
+                displayedBullet--; //Haalt een kogel van de teller af
+                currentBullet++; //Geeft aan bij welke van de 7 kogels je bent
+                if (currentBullet >= 7 && bulletReserve >= 7 && bulletReserve > 0) // Checkt als bullets boven 7 is en of de reserve bullets 7 of meer bullets heeft
                 {
-                    bullets[i].sprite = activeBullet; //Alle sprites worden vervangen met de active sprite
+                    currentBullet = -1;
+                    bulletReserve -= 7;
+                    displayedBullet = 7;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        bullets[i].sprite = activeBullet; //Alle sprites worden vervangen met de active sprite
+                    }
                 }
-            }
-            else if (currentBullet >= 7 && bulletReserve < 7 && bulletReserve >= 0) // Checkt of de bullets boven 7 is en of er 0 of meer, maar minder dan 7, reservekogels zijn
-            {
-                currentBullet = -1;
-                displayedBullet = bulletReserve;
-                bulletReserve = 0;
-                for (int i = 0; i < bulletReserve; i++)
+                else if (currentBullet >= 7 && bulletReserve < 7 && bulletReserve >= 0) // Checkt of de bullets boven 7 is en of er 0 of meer, maar minder dan 7, reservekogels zijn
                 {
-                    bullets[i].sprite = activeBullet;
-                }
-            }
-            else
-            {
-                bullets[currentBullet].sprite = inactiveBullet;
-                if (bulletReserve <= 0)
-                {
+                    currentBullet = -1;
+                    displayedBullet = bulletReserve;
                     bulletReserve = 0;
+                    for (int i = 0; i < bulletReserve; i++)
+                    {
+                        bullets[i].sprite = activeBullet;
+                    }
+                }
+                else
+                {
+                    bullets[currentBullet].sprite = inactiveBullet;
+                    if (bulletReserve <= 0)
+                    {
+                        bulletReserve = 0;
+                    }
+                }
+                if (displayedBullet <= 0 && bulletReserve <= 0) //Als de bullets op zijn dan wordt de kogel ook niet displayed en kan je niet meer schieten
+                {
+                    displayedBullet = 0;
+                    canShoot = false;
                 }
             }
         }
@@ -65,6 +75,3 @@ public class UIBullets : MonoBehaviour
 
     }
 }
-
-/* 
-*/
