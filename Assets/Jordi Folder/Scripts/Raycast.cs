@@ -20,10 +20,10 @@ public class Raycast : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-                if (rb)
+                GameObject enemy = hit.collider.gameObject;
+                if (enemy && enemy.tag == "ai")
                 {
-                    rb.AddForceAtPosition(ray.direction * Force, hit.point);
+                    enemy.GetComponent<Behavouir>().takeDamage(40);
                 }
                 Instantiate(particle, hit.point, Quaternion.identity);
             }

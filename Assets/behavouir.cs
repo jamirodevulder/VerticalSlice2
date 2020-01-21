@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class behavouir : MonoBehaviour
+public class Behavouir : MonoBehaviour
 {
-    private bool foundPlayer = false;
+    private bool foundPlayer = true;
     private GameObject player;
     private NavMeshAgent agent;
     private bool alreadySeen = false;
-    [SerializeField] private float maxRange;
-    [SerializeField] private float range;
-    [SerializeField] private float rotateSpeed;
+    private int ammoClip = 7;
+    private int maxAmmo = 7;
+    [SerializeField] private Transform[] hideplaces;
+    private int highest;
+    private bool goingToHide = false;
+    private bool reload = false;
+    private bool hidereload = false;
+    private bool allowedToShoot = true;
+    private float health = 100;
+    [SerializeField] private float randomnumber;
     
     // Start is called before the first frame update
     void Start()
     {
         
         agent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        
     }
-
     
     public void SetFoundplayer(bool setbool)
     {
@@ -29,89 +37,114 @@ public class behavouir : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    //second step call checkifIseePlayer() when first step  foundplayer is set to true.
+        //second step call checkifIseePlayer() when first step  foundplayer is set to true.
         if(foundPlayer || alreadySeen)
         {
             CheckIfISeePlayer();
         }
     }
 
-
-    //first step check if player is inrange of enemie
-    private void OnTriggerEnter(Collider other)
-    {
-        // checks for player in range if so it will make foundplayer true
-        if(other.gameObject.tag == "Player")
-        {
-            foundPlayer = true;
-            player = other.gameObject;
-        }
-    }
-
-
-    // if ai didnt see the player with his "eyes" and it is out of range it will set foundplayer to false and all steps will be reset than. will do nothing if ai already seen the player with his "eyes"
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.tag == "player")
-        {
-            foundPlayer = false;
-        }
-           
-    }
-
-    // third step it will check if the AI is possible to see the player when he is in range and will walk towards to the player.
+    // third step it will check if the AI is possible to see the player 
     public void CheckIfISeePlayer()
     {
         NavMeshHit hit;
         if (!agent.Raycast(player.transform.position, out hit))
         {
-            if(!alreadySeen)
+            if (randomnumber >= 50)
             {
-                alreadySeen = true;
+                if (!alreadySeen)
+                {
+                    alreadySeen = true;
+                }
+                if (!hidereload)
+                {
+                    agent.isStopped = true;
+                }
+                goingToHide = false;
+                ReadyToShoot();
             }
-            walkTowardsPlayer(true);
+            else
+            {
+                Hide();
+            }
         }
-        else if(alreadySeen)
+        else if(alreadySeen && !goingToHide)
         {
-            walkTowardsPlayer(false);
-            
+            Hide();
         }
     }
 
-
-    // will walk to the player when it get called if the player is seen with the eye of the AI it will shoot if it is inrange
-    private void walkTowardsPlayer(bool canShoot)
+    private void Hide()
     {
-
-        var heading = player.transform.position - transform.position;
-
-
-        if (canShoot && heading.sqrMagnitude < maxRange)
+        goingToHide = true;
+        float[] distance = new float[hideplaces.Length];
+        
+        float checker;
+        checker = 10000000;
+        for (int i = 0; i < hideplaces.Length; i++)
         {
-            ReadyToShoot();
+            distance[i] = Vector3.Distance(gameObject.transform.position, hideplaces[i].position);
+            if(checker > distance[i] && hideplaces[i].GetComponent<isTaken>().PossibleToclaim(gameObject))
+            {
+                checker = distance[i];
+                highest = i;
+            }
         }
-        else if (heading.sqrMagnitude > range)
+        hideplaces[highest].GetComponent<isTaken>().claim(gameObject);
+        if (hideplaces[highest].GetComponent<isTaken>().claimedByMe(gameObject))
         {
+            agent = GetComponent<NavMeshAgent>();
+            hideplaces[highest].GetComponent<isTaken>().claim(gameObject);
+            agent.destination = hideplaces[highest].position;
             agent.isStopped = false;
-
-            agent.destination = player.transform.position;
-            LookToPlayer();
         }
-
-
-
-
-
+        if(reload)
+        {
+            StartCoroutine(reloadTimer());
+        }
+       
     }
-    
+
+    private IEnumerator reloadTimer()
+    {
+        yield return new WaitForSeconds(4);
+        ammoClip = maxAmmo;
+        hidereload = false;
+        reload = false;
+        StopCoroutine(reloadTimer());
+    }
 
     private void ReadyToShoot()
     {
-        agent.isStopped = true;
-        print("pew pew");
-
-        LookToPlayer();
+        if (!reload)
+        {
+            agent.isStopped = true;
+            LookToPlayer();
+            if (allowedToShoot)
+            {
+                StartCoroutine(isAllowedToShoot());
+            }
+        }
+        else if(!hidereload && reload)
+        {
+            Hide();
+            hidereload = true;
+            print("test");
+        }
     }
+
+    private IEnumerator isAllowedToShoot()
+    {
+        allowedToShoot = false;
+        yield return new WaitForSeconds(0.5f);
+        ammoClip--;
+        if (ammoClip <= 0)
+        {
+            reload = true;
+        }
+        allowedToShoot = true;
+    }
+
     private void LookToPlayer()
     {
         Vector3 targetPostition = new Vector3(player.transform.position.x,
@@ -119,4 +152,14 @@ public class behavouir : MonoBehaviour
                                       player.transform.position.z);
         this.transform.LookAt(targetPostition);
     }
+
+    public void takeDamage(float damage)
+    {
+        health -= damage;
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
