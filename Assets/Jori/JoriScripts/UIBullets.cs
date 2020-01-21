@@ -22,7 +22,7 @@ public class UIBullets : MonoBehaviour
         }
         bulletText = GameObject.Find("BulletTextGameObject").GetComponentInChildren<Text>();
         currentBullet = -1; // Begint bij -1, zodat de eerste kogel weggehaalt wordt, in plaats van de 2e
-        bulletReserve = 42;
+        bulletReserve = 41;
         displayedBullet = 7;
         bulletText.text = displayedBullet + " - " + bulletReserve;
         canShoot = true;
