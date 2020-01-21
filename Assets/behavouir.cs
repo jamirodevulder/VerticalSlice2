@@ -80,7 +80,7 @@ public class Behavouir : MonoBehaviour
         float[] distance = new float[hideplaces.Length];
         
         float checker;
-        checker = 10000000;
+        checker = float.MaxValue;
         for (int i = 0; i < hideplaces.Length; i++)
         {
             distance[i] = Vector3.Distance(gameObject.transform.position, hideplaces[i].position);
