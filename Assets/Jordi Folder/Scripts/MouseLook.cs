@@ -38,6 +38,7 @@ public class MouseLook : MonoBehaviour
     {
         if (cursorLocked == false)
         {
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.None;
         }
         else

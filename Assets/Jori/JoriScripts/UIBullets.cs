@@ -12,7 +12,12 @@ public class UIBullets : MonoBehaviour
     [SerializeField] private Sprite inactiveBullet;
     [SerializeField] private Image[] bullets = new Image[6];
     [SerializeField] private GameObject[] bulletGameObjects = new GameObject[6];
+    [SerializeField] private BaseGun baseGunScript;
 
+    private void Start()
+    {
+        baseGunScript = GameObject.Find("Gun").GetComponent<BaseGun>();
+    }
     private void Awake()
     {
         for (int i = 0; i < 7; i++)
@@ -34,6 +39,8 @@ public class UIBullets : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                baseGunScript.Shoot();
+                print("Shot");//Laat de gun schieten
                 displayedBullet--; //Haalt een kogel van de teller af
                 currentBullet++; //Geeft aan bij welke van de 7 kogels je bent
                 if (currentBullet >= 7 && bulletReserve >= 7 && bulletReserve > 0) // Checkt als bullets boven 7 is en of de reserve bullets 7 of meer bullets heeft

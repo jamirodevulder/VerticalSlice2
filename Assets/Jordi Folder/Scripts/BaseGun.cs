@@ -10,6 +10,8 @@ public class BaseGun : MonoBehaviour
     [SerializeField] private MouseLook mouselookScript;
     [SerializeField] private PlayerMovment playerMovmentScript;
     [SerializeField] private Camera cam;
+    [SerializeField] private UIBullets uiBullets;
+
     private void Start()
     {
         mouselookScript = GameObject.Find("Main Camera").GetComponent<MouseLook>();
@@ -21,6 +23,25 @@ public class BaseGun : MonoBehaviour
     {
 
         gun.transform.LookAt(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10000)));
+
+        if (Input.GetMouseButton(1))
+        {
+
+            playerMovmentScript.canMove = false;
+            mouselookScript.cursorLocked = false;
+            crossHair.GetComponent<RectTransform>().position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            Debug.Log("Right mouse pressed");
+        }
+        else
+        {
+            playerMovmentScript.canMove = true;
+            crossHair.GetComponent<RectTransform>().position = new Vector2(Screen.width / 2, Screen.height / 2);
+            mouselookScript.cursorLocked = true;
+        }
+        mouselookScript.ToggleLockstate();
+    }
+    public void Shoot()
+    {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawLine(ray.origin, ray.direction * 30, Color.red);
@@ -36,22 +57,8 @@ public class BaseGun : MonoBehaviour
 
             }
 
-        }
-        
-        if (Input.GetMouseButton(1))
-        {
-            playerMovmentScript.canMove = false;
-            mouselookScript.cursorLocked = false;
-            crossHair.GetComponent<RectTransform>().position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            Debug.Log("Right mouse pressed");
 
         }
-        else
-        {
-            playerMovmentScript.canMove = true;
-            crossHair.GetComponent<RectTransform>().position = new Vector2(Screen.width/2,Screen.height/2);
-            mouselookScript.cursorLocked = true;
-        }
-        mouselookScript.ToggleLockstate();
+
     }
 }
