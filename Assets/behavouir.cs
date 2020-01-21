@@ -44,6 +44,7 @@ public class Behavouir : MonoBehaviour
         }
     }
 
+
     // third step it will check if the AI is possible to see the player 
     public void CheckIfISeePlayer()
     {
