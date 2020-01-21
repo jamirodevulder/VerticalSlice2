@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class BaseGun : MonoBehaviour
 {
-    [SerializeField] private int Force = 1000;
-    [SerializeField] private ParticleSystem particle;
-    [SerializeField] private ParticleSystem flames;
-    [SerializeField] private ParticleSystem sparkle;
-    [SerializeField] private ParticleSystem deepFlame;
+    [SerializeField] private int force = 1000;
+    [SerializeField] private GameObject gun;
+    [SerializeField] private GameObject crossHair;
+    [SerializeField] private MouseLook mouselookScript;
+    [SerializeField] private PlayerMovment playerMovmentScript;
+    [SerializeField] private Camera cam;
+    private void Start()
+    {
+        mouselookScript = GameObject.Find("Main Camera").GetComponent<MouseLook>();
+        playerMovmentScript = GameObject.Find("First-Person-Player").GetComponent<PlayerMovment>();
+        cam = Camera.main;
+    }
 
     void Update()
     {
 
+        gun.transform.LookAt(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10000)));
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawLine(ray.origin, ray.direction * 30, Color.red);
@@ -23,22 +31,27 @@ public class BaseGun : MonoBehaviour
                 Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
                 if (rb)
                 {
-                    rb.AddForceAtPosition(ray.direction * Force, hit.point);
+                    rb.AddForceAtPosition(ray.direction * force, hit.point);
                 }
-                Instantiate(particle, hit.point, Quaternion.identity);
+
             }
+
         }
+        
         if (Input.GetMouseButton(1))
         {
-            flames.Play();
-            sparkle.Play();
-            deepFlame.Play();
+            playerMovmentScript.canMove = false;
+            mouselookScript.cursorLocked = false;
+            crossHair.GetComponent<RectTransform>().position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            Debug.Log("Right mouse pressed");
+
         }
         else
         {
-            flames.Stop();
-            sparkle.Stop();
-            deepFlame.Stop();
+            playerMovmentScript.canMove = true;
+            crossHair.GetComponent<RectTransform>().position = new Vector2(Screen.width/2,Screen.height/2);
+            mouselookScript.cursorLocked = true;
         }
+        mouselookScript.ToggleLockstate();
     }
 }
