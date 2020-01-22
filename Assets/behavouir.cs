@@ -54,6 +54,7 @@ public class Behavouir : MonoBehaviour
         NavMeshHit hit;
         if (!agent.Raycast(player.transform.position, out hit))
         {
+            print("ik zie je");
             if (randomnumber >= 50)
             {
                 if (!alreadySeen)
@@ -70,6 +71,23 @@ public class Behavouir : MonoBehaviour
             else
             {
                 Hide();
+                if (Vector3.Distance(transform.position, agent.destination) <= 1f)
+                {
+                    if (!alreadySeen)
+                    {
+                        alreadySeen = true;
+                    }
+                    if (!hidereload)
+                    {
+                        agent.isStopped = true;
+                    }
+                    goingToHide = false;
+                    ReadyToShoot();
+                }
+                else
+                {
+                    Hide();
+                }
             }
         }
         else if(alreadySeen && !goingToHide)
@@ -106,6 +124,7 @@ public class Behavouir : MonoBehaviour
         {
             StartCoroutine(reloadTimer());
         }
+        
        
     }
 
@@ -148,6 +167,7 @@ public class Behavouir : MonoBehaviour
         }
         allowedToShoot = true;
         shooting.Play();
+        print("ik schiet maar laat niks zien");
     }
 
     private void LookToPlayer()
