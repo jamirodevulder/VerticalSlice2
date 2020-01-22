@@ -1,8 +1,11 @@
 fileFormatVersion: 2
-guid: dcacd69a5a305db4abb95734f91c265a
+guid: b71b39fd0285bc64eb69fe8fce53f001
 ModelImporter:
   serializedVersion: 26
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: Take 001
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -67,11 +70,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips:
-  - 4a5ae3da229273545af3dbc26a725f74
-  - b71b39fd0285bc64eb69fe8fce53f001
-  - fdfe9f7ece98d1e478797ef4a1fa036d
-  - b9851741d4989d849bd893b0963b525c
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

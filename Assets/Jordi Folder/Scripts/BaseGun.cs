@@ -51,25 +51,28 @@ public class BaseGun : MonoBehaviour
     }
     public void Shoot()
     {
-        shootParticle.Play();
-        RaycastHit hit;
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawLine(ray.origin, ray.direction * 30, Color.red);
-        if (Physics.Raycast(ray, out hit))
+        if (!animator.GetBool("reload 0"))
         {
-            if (Input.GetMouseButtonDown(0))
+            shootParticle.Play();
+            RaycastHit hit;
+            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawLine(ray.origin, ray.direction * 30, Color.red);
+            if (Physics.Raycast(ray, out hit))
             {
-                print(hit.collider.tag);
-                animator.SetTrigger("shoot");
-                if (hit.collider.gameObject.tag == "ai")
+                if (Input.GetMouseButtonDown(0))
                 {
-                    hit.collider.gameObject.GetComponent<Behavouir>().takeDamage(50);
+                    print(hit.collider.tag);
+                    animator.SetTrigger("shoot");
+                    if (hit.collider.gameObject.tag == "ai")
+                    {
+                        hit.collider.gameObject.GetComponent<Behavouir>().takeDamage(50);
+                    }
+
                 }
+
 
             }
 
-
         }
-
     }
 }
