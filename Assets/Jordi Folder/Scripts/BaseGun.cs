@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseGun : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class BaseGun : MonoBehaviour
     [SerializeField] private PlayerMovment playerMovmentScript;
     [SerializeField] private Camera cam;
     [SerializeField] private UIBullets uiBullets;
+    [SerializeField] private ParticleSystem shootParticle;
+    [SerializeField] private Sprite vizier1;
+    [SerializeField] private Sprite vizier2;
 
     private void Start()
     {
+        crossHair.GetComponent<Image>().sprite = vizier1;
+        shootParticle.Stop();
         mouselookScript = GameObject.Find("Main Camera").GetComponent<MouseLook>();
         playerMovmentScript = GameObject.Find("First-Person-Player").GetComponent<PlayerMovment>();
         cam = Camera.main;
@@ -26,7 +32,8 @@ public class BaseGun : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-
+            crossHair.GetComponent<Image>().sprite = vizier2;
+            print("nu visier 2");
             playerMovmentScript.canMove = false;
             mouselookScript.cursorLocked = false;
             crossHair.GetComponent<RectTransform>().position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -34,6 +41,8 @@ public class BaseGun : MonoBehaviour
         }
         else
         {
+            crossHair.GetComponent<Image>().sprite = vizier1;
+            print("nu visier 1");
             playerMovmentScript.canMove = true;
             crossHair.GetComponent<RectTransform>().position = new Vector2(Screen.width / 2, Screen.height / 2);
             mouselookScript.cursorLocked = true;
@@ -42,6 +51,7 @@ public class BaseGun : MonoBehaviour
     }
     public void Shoot()
     {
+        shootParticle.Play();
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawLine(ray.origin, ray.direction * 30, Color.red);
