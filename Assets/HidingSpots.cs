@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class isTaken : MonoBehaviour
+public class HidingSpots : MonoBehaviour
 {
 
     private GameObject placeHolder;
@@ -12,7 +12,6 @@ public class isTaken : MonoBehaviour
         if (PossibleToclaim(ai))
         {
             placeHolder = ai;
-            print(placeHolder + " en ik ben " + gameObject.name);
         }
     }
     

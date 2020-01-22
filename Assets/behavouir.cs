@@ -11,14 +11,17 @@ public class Behavouir : MonoBehaviour
     private bool alreadySeen = false;
     private int ammoClip = 7;
     private int maxAmmo = 7;
-    [SerializeField] private Transform[] hideplaces;
     private int highest;
     private bool goingToHide = false;
     private bool reload = false;
     private bool hidereload = false;
     private bool allowedToShoot = true;
     private float health = 100;
+
+    [SerializeField] private Transform[] hideplaces;
     [SerializeField] private float randomnumber;
+    [SerializeField] private HidingSpots[] hidingSpotsScript;
+
     
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,7 @@ public class Behavouir : MonoBehaviour
         
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+        
         
     }
     
@@ -85,17 +89,17 @@ public class Behavouir : MonoBehaviour
         for (int i = 0; i < hideplaces.Length; i++)
         {
             distance[i] = Vector3.Distance(gameObject.transform.position, hideplaces[i].position);
-            if(checker > distance[i] && hideplaces[i].GetComponent<isTaken>().PossibleToclaim(gameObject))
+            if(checker > distance[i] && hidingSpotsScript[i].PossibleToclaim(gameObject))
             {
                 checker = distance[i];
                 highest = i;
             }
         }
-        hideplaces[highest].GetComponent<isTaken>().claim(gameObject);
-        if (hideplaces[highest].GetComponent<isTaken>().claimedByMe(gameObject))
+        hidingSpotsScript[highest].claim(gameObject);
+        if (hidingSpotsScript[highest].claimedByMe(gameObject))
         {
             agent = GetComponent<NavMeshAgent>();
-            hideplaces[highest].GetComponent<isTaken>().claim(gameObject);
+            hidingSpotsScript[highest].claimedByMe(gameObject);
             agent.destination = hideplaces[highest].position;
             agent.isStopped = false;
         }
@@ -130,7 +134,6 @@ public class Behavouir : MonoBehaviour
         {
             Hide();
             hidereload = true;
-            print("test");
         }
     }
 
