@@ -22,28 +22,26 @@ public class BaseGun : MonoBehaviour
         shootParticle.Stop();
         mouselookScript = GameObject.Find("Main Camera").GetComponent<MouseLook>();
         playerMovmentScript = GameObject.Find("First-Person-Player").GetComponent<PlayerMovment>();
-        cam = Camera.main;
+        
     }
 
     void Update()
     {
 
-        gun.transform.LookAt(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10000)));
+        gun.transform.LookAt(UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10000)));
 
         if (Input.GetMouseButton(1))
         {
             
             crossHair.GetComponent<Image>().sprite = vizier2;
-            print("nu visier 2");
             playerMovmentScript.canMove = false;
             mouselookScript.cursorLocked = false;
             crossHair.GetComponent<RectTransform>().position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            Debug.Log("Right mouse pressed");
+         
         }
         else
         {
             crossHair.GetComponent<Image>().sprite = vizier1;
-            print("nu visier 1");
             playerMovmentScript.canMove = true;
             crossHair.GetComponent<RectTransform>().position = new Vector2(Screen.width / 2, Screen.height / 2);
             mouselookScript.cursorLocked = true;
@@ -60,10 +58,10 @@ public class BaseGun : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-                if (rb)
+               
+                if (hit.collider.gameObject.tag == "ai")
                 {
-                    rb.AddForceAtPosition(ray.direction * force, hit.point);
+                    hit.collider.gameObject.GetComponent<Behavouir>().takeDamage(50);
                 }
 
             }

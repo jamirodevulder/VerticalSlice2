@@ -26,11 +26,8 @@ public class Behavouir : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
-        
-        
     }
     
     public void SetFoundplayer(bool setbool)
