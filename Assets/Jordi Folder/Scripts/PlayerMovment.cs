@@ -19,13 +19,23 @@ public class PlayerMovment : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
+    [SerializeField] Animator walk;
     void Update()
     {
         if (canMove)
         {
+            
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
 
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                walk.SetBool("walk", true);
+            }
+            else
+            {
+                walk.SetBool("walk", false);
+            }
             Vector3 move = transform.right * x + transform.forward * z;
 
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);

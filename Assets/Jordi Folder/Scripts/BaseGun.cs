@@ -15,13 +15,14 @@ public class BaseGun : MonoBehaviour
     [SerializeField] private ParticleSystem shootParticle;
     [SerializeField] private Sprite vizier1;
     [SerializeField] private Sprite vizier2;
+    [SerializeField] Animator animator;
 
     private void Start()
     {
         crossHair.GetComponent<Image>().sprite = vizier1;
         shootParticle.Stop();
         mouselookScript = GameObject.Find("Main Camera").GetComponent<MouseLook>();
-        playerMovmentScript = GameObject.Find("First-Person-Player").GetComponent<PlayerMovment>();
+        playerMovmentScript = GameObject.Find("Hands model 0.5").GetComponent<PlayerMovment>();
         
     }
 
@@ -58,7 +59,8 @@ public class BaseGun : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-               
+                print(hit.collider.tag);
+                animator.SetTrigger("shoot");
                 if (hit.collider.gameObject.tag == "ai")
                 {
                     hit.collider.gameObject.GetComponent<Behavouir>().takeDamage(50);
