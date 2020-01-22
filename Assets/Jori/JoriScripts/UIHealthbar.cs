@@ -22,7 +22,7 @@ public class UIHealthbar : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S) /* health > 7 */)
+        if (Input.GetKeyDown(KeyCode.S) /* health > 7 */) //De comments hier moeten de inputs vervangen, zodat de health/shield niet hoger gaat dan 7
         {
             //health = 7;
             HealPlayer(1);
