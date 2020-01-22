@@ -21,6 +21,7 @@ public class Behavouir : MonoBehaviour
     [SerializeField] private Transform[] hideplaces;
     [SerializeField] private float randomnumber;
     [SerializeField] private HidingSpots[] hidingSpotsScript;
+    [SerializeField] private ParticleSystem shooting;
 
     
     // Start is called before the first frame update
@@ -43,6 +44,7 @@ public class Behavouir : MonoBehaviour
         {
             CheckIfISeePlayer();
         }
+        LookToPlayer();
     }
 
 
@@ -131,6 +133,7 @@ public class Behavouir : MonoBehaviour
         {
             Hide();
             hidereload = true;
+            LookToPlayer();
         }
     }
 
@@ -144,6 +147,7 @@ public class Behavouir : MonoBehaviour
             reload = true;
         }
         allowedToShoot = true;
+        shooting.Play();
     }
 
     private void LookToPlayer()
