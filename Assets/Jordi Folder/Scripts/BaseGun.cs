@@ -32,6 +32,7 @@ public class BaseGun : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
+            
             crossHair.GetComponent<Image>().sprite = vizier2;
             print("nu visier 2");
             playerMovmentScript.canMove = false;
