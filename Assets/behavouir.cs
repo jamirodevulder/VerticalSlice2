@@ -22,6 +22,7 @@ public class Behavouir : MonoBehaviour
     [SerializeField] private float randomnumber;
     [SerializeField] private HidingSpots[] hidingSpotsScript;
     [SerializeField] private ParticleSystem shooting;
+    [SerializeField] private UIHealthbar playerhealt;
 
     
     // Start is called before the first frame update
@@ -167,7 +168,10 @@ public class Behavouir : MonoBehaviour
         }
         allowedToShoot = true;
         shooting.Play();
-        print("ik schiet maar laat niks zien");
+        if(RNG() == 4)
+        {
+            playerhealt.DamagePlayer(1);
+        }
     }
 
     private void LookToPlayer()
@@ -186,5 +190,8 @@ public class Behavouir : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    private float RNG()
+    {
+        return Random.Range(0, 6);
+    }
 }

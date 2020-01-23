@@ -17,7 +17,7 @@ public class UIBullets : MonoBehaviour
 
     private void Start()
     {
-        baseGunScript = GameObject.Find("Gun").GetComponent<BaseGun>();
+       
     }
     private void Awake()
     {
@@ -40,6 +40,7 @@ public class UIBullets : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !animation.GetBool("reload 0"))
             {
+                Debug.Log("ik schiet");
                 baseGunScript.Shoot();
                 print("Shot");//Laat de gun schieten
                 displayedBullet--; //Haalt een kogel van de teller af

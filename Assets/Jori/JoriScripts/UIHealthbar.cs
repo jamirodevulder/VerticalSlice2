@@ -22,19 +22,9 @@ public class UIHealthbar : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S) /* health > 7 */) //De comments hier moeten de inputs vervangen, zodat de health/shield niet hoger gaat dan 7
-        {
-            //health = 7;
-            HealPlayer(1);
-        }
-        if (Input.GetKeyDown(KeyCode.W) /* shield > 7*/) //Als shield boven de 7 gaat wordt het terug gedaan naar 7
-        {
-            //Shield = 7;
-            DamagePlayer(1);
-        }
     }
 
-    void DamagePlayer(int damage) //Health erafhalen
+   public void DamagePlayer(int damage) //Health erafhalen
     {
         if (shield < 7)
         {
@@ -46,11 +36,11 @@ public class UIHealthbar : MonoBehaviour
             health += damage; //Zelfde als bij shield
             healthBar.sprite = healthImages[health];
         }
-        /*else if(shield == 7 && health == 7) //Voor als je de dood animatie wilt activeren
+        else if(shield == 7 && health == 7) //Voor als je de dood animatie wilt activeren
          {
-            death functie hier
+            print("ik ben dood");
          }
-        */
+        
     }
 
     void HealPlayer(int healthToAdd) //Health erbij doen
