@@ -7,24 +7,35 @@ public class gethit : MonoBehaviour
 {
     [SerializeField]private Image image;
     private float trans;
+    private bool hit = false;
     // Start is called before the first frame update
     void Start()
     {
-        gothit();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (hit)
+        {
+            Color c = image.color;
+            c.a = trans;
+            c.a -= 0.01f;
+            trans -= 0.01f;
+            image.color = c;
+            if(image.color.a <= 0)
+            {
+                hit = false;
+            }
+        }
     }
     public void gothit()
     {
-        trans = 100f;
-        while (image.color.a != 0)
-        {
-            trans -= 0.00001f;
-            image.color = new Color(image.color.r, image.color.g, image.color.b, trans);
-        }
+        trans = 0.75f;
+        hit = true;
+
     }
+  
 }

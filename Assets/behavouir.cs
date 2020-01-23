@@ -23,6 +23,7 @@ public class Behavouir : MonoBehaviour
     [SerializeField] private HidingSpots[] hidingSpotsScript;
     [SerializeField] private ParticleSystem shooting;
     [SerializeField] private UIHealthbar playerhealt;
+    [SerializeField] private gethit pain;
 
     
     // Start is called before the first frame update
@@ -171,6 +172,7 @@ public class Behavouir : MonoBehaviour
         if(RNG() == 4)
         {
             playerhealt.DamagePlayer(1);
+            pain.gothit();
         }
     }
 

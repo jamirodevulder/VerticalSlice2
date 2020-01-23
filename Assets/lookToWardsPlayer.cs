@@ -15,7 +15,7 @@ public class lookToWardsPlayer : MonoBehaviour
     void Update()
     {
         Vector3 targetPostition = new Vector3(player.transform.position.x,
-                                      this.transform.position.y,
+                                      this.transform.position.y + 1,
                                       player.transform.position.z);
         this.transform.LookAt(targetPostition);
     }
