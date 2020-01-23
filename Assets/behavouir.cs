@@ -169,7 +169,7 @@ public class Behavouir : MonoBehaviour
         }
         allowedToShoot = true;
         shooting.Play();
-        if(RNG() == 4)
+        if(RNG() == 2)
         {
             playerhealt.DamagePlayer(1);
             pain.gothit();
@@ -194,6 +194,6 @@ public class Behavouir : MonoBehaviour
     }
     private float RNG()
     {
-        return Random.Range(0, 6);
+        return Random.Range(0, 4);
     }
 }
